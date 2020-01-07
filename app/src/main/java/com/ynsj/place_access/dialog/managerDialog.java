@@ -7,15 +7,11 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-
 import com.ynsj.place_access.R;
 import com.ynsj.place_access.listener.OnFpListener;
 import com.ynsj.place_access.listener.OnLockerBackListener;
 import com.ynsj.place_access.listener.OnNfcListener;
 import com.ynsj.place_access.server.FingerNfcServer;
-
-
 public class managerDialog extends Dialog implements OnNfcListener, OnFpListener, OnLockerBackListener {
 
     private TextView title;
@@ -49,7 +45,7 @@ public class managerDialog extends Dialog implements OnNfcListener, OnFpListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.manager_dialog);
-        FingerNfcServer.getInstance().startport(this,this,this);
+      //  FingerNfcServer.getInstance().startport(this,this,this);
 
         setCanceledOnTouchOutside(true);
         initView();
@@ -66,8 +62,11 @@ public class managerDialog extends Dialog implements OnNfcListener, OnFpListener
             @Override
             public void onCancel(DialogInterface dialog) {
 
-                FingerNfcServer.getInstance().closeport();
-                onMessageListener.GetFinsh();
+               // FingerNfcServer.getInstance().closeport();
+                if(onMessageListener!=null){
+                    onMessageListener.GetFinsh();
+                }
+
 
             }
         });
@@ -84,9 +83,9 @@ public class managerDialog extends Dialog implements OnNfcListener, OnFpListener
 
     @Override
     public void commGetId(String id, String send_id) {
-
-            onMessageListener.GetFN("id",id);
-
+            if (onMessageListener!=null){
+                onMessageListener.GetFN("id",id);
+            }
     }
 
     @Override

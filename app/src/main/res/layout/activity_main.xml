@@ -1,63 +1,197 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.linkfun.netsetting.style_layout.RelativeStyleLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/basketball_bg"
+   app:RelativeStyleLayout_Style_One="@mipmap/bg_home_main_style_one"
+   app:RelativeStyleLayout_Style_Twe="@mipmap/bg_home_main_style_twe"
     tools:context=".views.Place_MainActivity">
+<com.linkfun.netsetting.style_layout.RoundBGStyleLayout
+    android:id="@+id/rl_head"
+    app:layout_marginTopPercent="21.8%"
+    app:layout_marginLeftPercent="4%"
+    app:layout_marginRightPercent="4%"
+    android:layout_width="match_parent"
+    app:RoundBGStyleLayout_Direction="1"
+    app:RoundBGStyleLayout_Style_One="@color/main_style_bg_color1"
+    app:RoundBGStyleLayout_Style_Twe="@color/main_style_bg_color2"
+    android:layout_height="72dp"
+    app:layout_heightPercent="7.5%h"
 
+    >
 
-
-    <LinearLayout
+    <com.linkfun.netsetting.style_layout.LinearStyleLayout
         android:layout_width="match_parent"
-        android:gravity="center"
+        android:orientation="horizontal"
         android:layout_height="match_parent">
-
-
-        <ImageView
-            android:layout_width="520px"
-            android:layout_height="781px"
-
-            android:src="@mipmap/basketball_logo"
+        <com.linkfun.netsetting.style_layout.TextStyleView
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:TextStyleView_Style_Twe="@color/white"
+            android:text="会员名称"
+            android:textSize="40px"
+            />      <com.linkfun.netsetting.style_layout.TextStyleView
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+        app:TextStyleView_Style_Twe="@color/white"
+            android:text="预约时间"
+            android:textSize="40px"
+            />      <com.linkfun.netsetting.style_layout.TextStyleView
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+           app:TextStyleView_Style_Twe="@color/white"
+            android:text="预约场地"
+            android:textSize="40px"
+            />      <com.linkfun.netsetting.style_layout.TextStyleView
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+          app:TextStyleView_Style_Twe="@color/white"
+            android:text="状态"
+            android:textSize="40px"
             />
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_marginTop="50px"
+    </com.linkfun.netsetting.style_layout.LinearStyleLayout>
+</com.linkfun.netsetting.style_layout.RoundBGStyleLayout>
+
+
+
+    <com.jude.easyrecyclerview.EasyRecyclerView
+        android:background="#99ffffff"
+        android:layout_below="@+id/rl_head"
+        android:layout_above="@+id/rl_bottom"
+        app:layout_marginLeftPercent="4%"
+        app:layout_marginRightPercent="4%"
+        android:id="@+id/rv_list"
+        android:visibility="visible"
         android:layout_width="match_parent"
-        android:gravity="right"
-        android:layout_height="wrap_content">
-        <TextView
+        android:layout_height="match_parent"/>
+
+    <com.linkfun.netsetting.style_layout.RoundBGStyleLayout
+        android:id="@+id/rl_bottom"
+        app:layout_marginBottomPercent="2.5%"
+        app:layout_marginLeftPercent="4%"
+        app:layout_marginRightPercent="4%"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        app:RoundBGStyleLayout_Direction="2"
+        app:RoundBGStyleLayout_Style_One="@color/main_style_bg_color1"
+        app:RoundBGStyleLayout_Style_Twe="@color/main_style_bg_color2"
+        android:layout_height="72dp"
+        app:layout_heightPercent="7.5%h"
+        >
+        <LinearLayout
+            android:layout_centerInParent="true"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+
+
+        <com.linkfun.netsetting.style_layout.RelativeStyleLayout
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            app:RelativeStyleLayout_Style_One="@mipmap/icon_home_lock_style_one"
+            app:RelativeStyleLayout_Style_Twe="@mipmap/icon_home_lock_style_twe"
+
+            />
+        <com.linkfun.netsetting.style_layout.TextStyleView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="50px"
-            android:textSize="30px"
-            android:textColor="#FFFFFF"
-            android:text="v1.1"
-            android:id="@+id/place_version"/>
-    </LinearLayout>
-
-
-
-    <LinearLayout
-        android:layout_marginTop="50px"
-        android:layout_width="match_parent"
-        android:gravity="left"
-        android:layout_height="wrap_content">
+            android:layout_marginLeft="6dp"
+            android:text="密码开门"
+            app:TextStyleView_Style_Twe="@color/white"
+            android:textSize="40px"
+            />
+        </LinearLayout>
+    </com.linkfun.netsetting.style_layout.RoundBGStyleLayout>
 
 
 
         <Button
+            android:layout_marginRight="24dp"
+            android:layout_marginTop="32dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
             android:id="@+id/place_setting"
             android:background="@mipmap/setting"
             android:layout_marginLeft="50px"
-            android:layout_width="50px"
-            android:layout_height="50px" />
-    </LinearLayout>
+            android:layout_width="36px"
+            android:layout_height="36px" />
+    <Button
+            android:layout_marginRight="24dp"
+            android:layout_marginTop="32dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:id="@+id/btn_connect_state"
+            android:background="@mipmap/icon_setting_connected"
+            android:layout_marginLeft="50px"
+            android:layout_width="36px"
+            android:layout_height="36px" />
+
+ <com.linkfun.netsetting.style_layout.RelativeStyleLayout
+     android:layout_width="315px"
+
+     android:layout_height="281px"
+     android:layout_centerHorizontal="true"
+     app:layout_marginTopPercent="6.4%"
+     app:RelativeStyleLayout_Style_One="@mipmap/bg_home_time_style_one"
+     app:RelativeStyleLayout_Style_Twe="@mipmap/bg_home_time_style_twe"
+     >
+
+     <com.linkfun.netsetting.style_layout.LinearStyleLayout
+         android:layout_centerInParent="true"
+         android:orientation="vertical"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content">
+         <com.linkfun.netsetting.style_layout.TextClockStyleView
+             android:layout_width="match_parent"
+             android:gravity="center"
+             android:layout_height="wrap_content"
+             android:format24Hour ="HH:mm"
+             android:format12Hour ="hh:mm"
+             app:TextStyleView_Style_One="@color/main_style_bg_color1"
+             app:TextStyleView_Style_Twe="@color/main_style_bg_color2"
+             android:textSize="65px"
+             />
+         <com.linkfun.netsetting.style_layout.TextClockStyleView
+           app:layout_marginTopPercent="7.1%h"
+             android:gravity="center"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:format24Hour ="yyyy年MM月dd日"
+             android:format12Hour ="yyyy年MM月dd日"
+
+             app:TextStyleView_Style_One="@color/main_style_bg_color1"
+             app:TextStyleView_Style_Twe="@color/main_style_bg_color2"
+             android:textSize="25px"
+             />
+         <com.linkfun.netsetting.style_layout.TextClockStyleView
+             app:layout_marginTopPercent="3.9%h"
+             android:gravity="center"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:format24Hour ="EEEE"
+             android:format12Hour ="EEEE"
+             app:TextStyleView_Style_One="@color/main_style_bg_color1"
+             app:TextStyleView_Style_Twe="@color/main_style_bg_color2"
+             android:textSize="25px"
+             />
+     </com.linkfun.netsetting.style_layout.LinearStyleLayout>
+
+ </com.linkfun.netsetting.style_layout.RelativeStyleLayout>
 
 
 
 
 
-</RelativeLayout>
+</com.linkfun.netsetting.style_layout.RelativeStyleLayout>

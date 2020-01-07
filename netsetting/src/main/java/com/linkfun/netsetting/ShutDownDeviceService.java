@@ -1,4 +1,4 @@
-package com.ynsj.place_access.server;
+package com.linkfun.netsetting;
 
 
 import android.app.Service;
@@ -7,8 +7,9 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.ynsj.place_access.util.ServerConfig;
-import com.ynsj.place_access.util.StaticDataUtil;
+
+import com.linkfun.netsetting.utils.SQLUtils;
+import com.ys.rkapi.MyManager;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -26,7 +27,7 @@ import java.util.concurrent.TimeUnit;
  * name ：
  */
 
-public class ShutDownDeviceService extends Service {
+public class ShutDownDeviceService extends Service implements SQLUtils.onRebootTimeChangeListener {
     private ScheduledExecutorService threadPool = null;
     private int betweenTime = 59;//间隔59秒执行一次
     private int delayTime = 2;//线程池开启5庙后执行
@@ -46,8 +47,9 @@ public class ShutDownDeviceService extends Service {
     public void onCreate() {
         super.onCreate();
         threadPool = Executors.newScheduledThreadPool(3);
-        oneTime= ServerConfig.getInstance().reboot_tim;
+        oneTime= SQLUtils.getRebootTime(this);
         Log.e("service", "开始任务" );
+        SQLUtils.addOnRebootTimeChangeListener(this);
         executeShutDown();
     }
 
@@ -60,7 +62,7 @@ public class ShutDownDeviceService extends Service {
                dateStr = sdf.format(new Date());
                 if (dateStr.equals(oneTime) ) {
                     Log.e("service", "运行定时任务" );
-                    StaticDataUtil.getInstance().manager.reboot();
+                    MyManager.getInstance(ShutDownDeviceService.this).reboot();
                 }
             }
         }, delayTime, betweenTime, TimeUnit.SECONDS);
@@ -71,8 +73,13 @@ public class ShutDownDeviceService extends Service {
         threadPool.shutdown();
         threadPool = null ;
         dateStr = null ;
+        SQLUtils.removeOnRebootTimeChangeListener(this);
         super.onDestroy();
     }
 
 
+    @Override
+    public void onRebootTimeChange(String time) {
+        oneTime=time;
+    }
 }

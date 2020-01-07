@@ -1,17 +1,22 @@
 package com.ynsj.place_access.views;
-
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
-
 import com.android.tu.loadingdialog.LoadingDailog;
-import com.tencent.bugly.Bugly;
+import com.jude.easyrecyclerview.EasyRecyclerView;
+import com.jude.easyrecyclerview.adapter.BaseViewHolder;
+import com.linkfun.netsetting.NetSettingActivity;
+import com.linkfun.netsetting.PasswordInputDialog;
+import com.linkfun.netsetting.style_layout.RoundBGStyleLayout;
 import com.ynsj.place_access.R;
+import com.ynsj.place_access.adapter.HomeAppointmentAdapter;
 import com.ynsj.place_access.dialog.managerDialog;
 import com.ynsj.place_access.listener.OnFpListener;
 import com.ynsj.place_access.listener.OnLockerBackListener;
@@ -19,21 +24,21 @@ import com.ynsj.place_access.listener.OnNfcListener;
 import com.ynsj.place_access.model.AdminModel;
 import com.ynsj.place_access.model.SearchBean;
 import com.ynsj.place_access.server.FingerNfcServer;
-import com.ynsj.place_access.server.ShutDownDeviceService;
+import com.linkfun.netsetting.ShutDownDeviceService;
 import com.ynsj.place_access.util.ServerConfig;
 import com.ynsj.place_access.util.StaticDataUtil;
 import com.ynsj.place_access.util.apiutil.ApiUtil;
 import com.ynsj.place_access.util.apiutil.HttpAPIModel;
 import com.ynsj.place_access.util.apiutil.Model;
 import com.ynsj.place_access.util.uartutil.device_pack.LockerDevice;
-import com.ys.myapi.MyManager;
 
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
 public class Place_MainActivity extends AppCompatActivity implements OnFpListener, OnLockerBackListener, OnNfcListener, com.ynsj.place_access.dialog.managerDialog.OnMessageListener {
 
 
@@ -41,7 +46,12 @@ public class Place_MainActivity extends AppCompatActivity implements OnFpListene
 
 
    @BindView(R.id.place_setting)
-    Button button;
+    Button btnSetting;
+   @BindView(R.id.rl_bottom)
+   RoundBGStyleLayout rlBottom;
+
+   @BindView(R.id.rv_list)
+   EasyRecyclerView rvList;
 
    //管理员设置对话框
    public managerDialog managerDialog;
@@ -62,12 +72,11 @@ public class Place_MainActivity extends AppCompatActivity implements OnFpListene
         ButterKnife.bind(this);
         ApiUtil.initOkHttp(this,"");
 
-        StaticDataUtil.getInstance().manager= MyManager.getInstance(this);
-        Bugly.init(getApplicationContext(), bugly_id, false);
+   //     Bugly.init(getApplicationContext(), bugly_id, false);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         ApiUtil.initOkHttp(this, "");//初始化OkHttp
         StaticDataUtil.getInstance().activityList.add(this);
-        FingerNfcServer.getInstance().startport(this, this, this);
+       // FingerNfcServer.getInstance().startport(this, this, this);
 
         loadBuilder=new LoadingDailog.Builder(this)
                 .setMessage("加载中...")
@@ -77,17 +86,43 @@ public class Place_MainActivity extends AppCompatActivity implements OnFpListene
         Intent intentOne = new Intent(this, ShutDownDeviceService.class);
         startService(intentOne);
 
-        button.setOnClickListener(new View.OnClickListener() {
+        btnSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
-               showManager();
+
+                startActivity(new Intent(Place_MainActivity.this,NetSettingActivity.class));
+            //   showManager();
             }
         });
+        rlBottom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PasswordInputDialog.newInstance(Place_MainActivity.this, new PasswordInputDialog.OnConfirmClick() {
+                    @Override
+                    public void confirm(int passwordList) {
 
+                    }
 
+                    @Override
+                    public void cancel() {
 
+                    }
+                });
+            }
+        });
+       initList();
+    }
+  int  mCount=20;
+    private void initList() {
+        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this);
+          rvList.setLayoutManager(mLinearLayoutManager);
 
+        List<String> mData = new ArrayList<>();
+        for (int i = 0; i < mCount; i++) {
+            mData.add(i + "");
+        }
+
+       rvList.setAdapter(new HomeAppointmentAdapter(Place_MainActivity.this,mData,rvList.getRecyclerView(),null));
     }
 
 
@@ -105,12 +140,8 @@ public class Place_MainActivity extends AppCompatActivity implements OnFpListene
     public void showManager() {
 
 
-        managerDialog=new managerDialog(Place_MainActivity.this,R.style.dialog,"管理员验证","请刷手环",R.mipmap.icon_manager1,this);
+        managerDialog=new managerDialog(Place_MainActivity.this,R.style.dialog,"管理员验证","请刷手环",R.mipmap.icon_manager1,null);
         managerDialog.show();
-//        Intent intant = new Intent(AccessMain_Activity.this, AccessSetting_Activity.class);
-//        intant.putExtra("id", 1);
-//        startActivity(intant);
-
 
     }
 
@@ -237,7 +268,7 @@ public class Place_MainActivity extends AppCompatActivity implements OnFpListene
         super.onResume();
         //显示是启动定时
 //        startAD();
-        FingerNfcServer.getInstance().startport(this,this,this);
+    //    FingerNfcServer.getInstance().startport(this,this,this);
 
 
 
@@ -252,6 +283,7 @@ public class Place_MainActivity extends AppCompatActivity implements OnFpListene
            if (1==responseObject.getInfo().get(0).getType()) {
                Intent intant = new Intent(Place_MainActivity.this, Place_SettingActivity.class);
                startActivity(intant);
+
            }
            Toast.makeText(Place_MainActivity.this, "权限不足", Toast.LENGTH_SHORT).show();
         }
@@ -269,6 +301,28 @@ public class Place_MainActivity extends AppCompatActivity implements OnFpListene
     };
 
 
+
+    public static class HomeSiteViewHolder extends BaseViewHolder<String> {
+
+
+
+
+        public HomeSiteViewHolder(ViewGroup parent, int res) {
+            super(parent, res);
+
+        }
+
+        @Override
+        public void setData(final String person) {
+
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+    }
 
 
 }

@@ -3,7 +3,7 @@ package com.ynsj.place_access.util;
 import android.app.Activity;
 
 import com.bumptech.glide.request.RequestOptions;
-import com.ys.myapi.MyManager;
+
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ public class StaticDataUtil {
     public static StaticDataUtil instance = null;
     public String TAG = "StaticUtil";
 
-    public MyManager manager;
+
     public boolean isNewDevic = true;
     public List<Activity> activityList = new ArrayList<Activity>();
 
