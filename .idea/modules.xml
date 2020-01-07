@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/access_control.iml" filepath="$PROJECT_DIR$/access_control.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/access_control_v1/access_control_v1.iml" filepath="$PROJECT_DIR$/access_control_v1/access_control_v1.iml" />
       <module fileurl="file://$PROJECT_DIR$/netsetting/netsetting.iml" filepath="$PROJECT_DIR$/netsetting/netsetting.iml" />
     </modules>
   </component>
